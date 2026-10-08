@@ -1,4 +1,5 @@
 import { getProduct } from "@/lib/api";
+import { Product, Market } from "@/lib/types";
 
 export const instant = false;
 
@@ -11,9 +12,9 @@ interface ProductDetailPageProps {
 const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
   const { id } = await params;
 
-  const product = await getProduct(Number(id));
+  const product: Product = await getProduct(Number(id));
 
-  const prices = product.markets.flatMap((market) => [market.min, market.max]);
+  const prices = product.markets.flatMap((market: Market) => [market.min, market.max]);
 
   const minimumPrice = Math.min(...prices);
   const maximumPrice = Math.max(...prices);
