@@ -53,8 +53,8 @@ export async function getProductsByCategory(category: string) {
 }
 
 // Single Product
-export async function getProduct(slug: string) {
-  const res = await fetch(`${API_BASE_URL}/products/${slug}`, {
+export async function getProduct(id: number) {
+  const res = await fetch(`${API_BASE_URL}/products/${id}`, {
     next: { revalidate: 3600 },
   });
 

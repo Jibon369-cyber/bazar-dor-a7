@@ -11,13 +11,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Link
-      href={`/product/${product.slug}`}
+      href={`/product/${product.id}`}
       className='group block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg'>
       {/* Product Icon */}
       <div className="flex gap-2">
         <div className='flex items-center justify-baseline'>
           <div className='flex h-20 w-20 items-center justify-center rounded-2xl bg-green-50 text-5xl transition duration-300 group-hover:scale-105'>
-            {product.categoryIcon}
+            {product.image}
           </div>
         </div>
 
