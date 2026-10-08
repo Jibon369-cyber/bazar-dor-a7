@@ -30,7 +30,7 @@ const NavLinks = ({ categories }: NavLinksProps) => {
         {categories.map((category) => (
           <Link
             key={category.id}
-            href={`/category/${category.slug}`}
+            href={`/categories/${category.slug}`}
             className='text-sm font-medium text-slate-700 transition hover:text-green-700'>
             {category.icon} {category.nameBn}
           </Link>
@@ -60,7 +60,7 @@ const NavLinks = ({ categories }: NavLinksProps) => {
             {categories.map((category) => (
               <Link
                 key={category.id}
-                href={`/category/${category.slug}`}
+                href={`/categories/${category.slug}`}
                 onClick={() => setIsOpen(false)}
                 className='rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-green-50 hover:text-green-700'>
                 {category.icon} {category.nameBn}
