@@ -1,55 +1,99 @@
-'use client'
+"use client";
 
-import { signIn} from "@/lib/auth-client";
-
+import { type FormEvent } from "react";
+import { signIn } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const SignInPage = () => {
+  const router = useRouter();
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const formData = new FormData(e.currentTarget);
-      const user = Object.fromEntries(formData.entries()) as {
-        email: string;
-        password: string;
-      };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
+
+    if (!email || !password) {
+      toast.error("ইমেইল ও পাসওয়ার্ড লিখুন।");
+      return;
+    }
+
+    try {
       const { data, error } = await signIn.email({
-        ...user,
+        email,
+        password,
         callbackURL: "/",
       });
 
-      if (data) {
-        toast.success("সাইন ইন সফল হয়েছে");
-      }
-
       if (error) {
-        toast.error(error?.message ?? "Something went wrong");
+        console.error("সাইন ইন ত্রুটি:", error);
+        toast.error(
+          "সাইন ইন করা যায়নি। ইমেইল ও পাসওয়ার্ড যাচাই করে আবার চেষ্টা করুন।",
+        );
         return;
       }
-    };
 
+      if (data) {
+        toast.success("সাইন ইন সফল হয়েছে! স্বাগতম।");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error("সাইন ইন সম্পন্ন হয়নি। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("সাইন ইন সমস্যা:", error);
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
+  };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("Google login error:", error);
+        toast.error("গুগল দিয়ে প্রবেশ করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("Google login exception:", error);
+      toast.error("গুগল দিয়ে প্রবেশ করতে সমস্যা হয়েছে।");
+    }
+  };
+
+  const handleGitHubSignIn = async () => {
+    try {
+      const { error } = await signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("GitHub login error:", error);
+        toast.error("গিটহাব দিয়ে প্রবেশ করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("GitHub login exception:", error);
+      toast.error("গিটহাব দিয়ে প্রবেশ করতে সমস্যা হয়েছে।");
+    }
+  };
 
   return (
     <main className='min-h-screen bg-base-100 px-4 py-10'>
       <div className='mx-auto flex min-h-[80vh] max-w-md flex-col items-center justify-center'>
-        {/* Heading */}
         <div className='mb-6 text-center'>
-          <h1 className='text-3xl font-bold text-base-content'>
-            সাইন ইন করুন
-          </h1>
-
+          <h1 className='text-3xl font-bold text-base-content'>সাইন ইন করুন</h1>
           <p className='mt-2 text-sm text-base-content/70'>
             আপনার অ্যাকাউন্টে প্রবেশ করুন।
           </p>
         </div>
 
-        {/* Sign Up Form */}
         <div className='w-full rounded-2xl border border-base-300 bg-base-200 p-6 shadow-lg sm:p-8'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-            
-
             <fieldset className='fieldset'>
               <label htmlFor='email' className='label'>
                 ইমেইল
@@ -74,14 +118,11 @@ const SignInPage = () => {
                 type='password'
                 name='password'
                 className='input w-full'
-                placeholder='কমপক্ষে ৮ অক্ষর'
-                autoComplete='new-password'
-                minLength={8}
+                placeholder='আপনার পাসওয়ার্ড লিখুন'
+                autoComplete='current-password'
                 required
               />
             </fieldset>
-
-            
 
             <button
               type='submit'
@@ -99,7 +140,8 @@ const SignInPage = () => {
           <div className='grid grid-cols-2 gap-3'>
             <button
               type='button'
-              className='flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer'>
+              onClick={handleGoogleSignIn}
+              className='flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 48 48'
@@ -127,7 +169,8 @@ const SignInPage = () => {
 
             <button
               type='button'
-              className='flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer'>
+              onClick={handleGitHubSignIn}
+              className='flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -140,7 +183,7 @@ const SignInPage = () => {
           </div>
 
           <p className='mt-6 text-center text-sm text-base-content/70'>
-            আগে থেকেই অ্যাকাউন্ট আছে?{" "}
+            অ্যাকাউন্ট নেই?{" "}
             <a
               href='/sign-up'
               className='font-semibold text-green-700 hover:underline'>
@@ -162,5 +205,3 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
-
-

@@ -1,6 +1,6 @@
-
 "use client";
 
+import { type FormEvent } from "react";
 import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -8,76 +8,108 @@ import toast from "react-hot-toast";
 const SignUpPage = () => {
   const router = useRouter();
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
-    const user = Object.fromEntries(formData.entries()) as {
-      name: string;
-      email: string;
-      password: string;
-      confirmPassword: string;
-    };
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "");
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
 
-    if (user.password !== user.confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
+      toast.error("সবগুলো ঘর পূরণ করুন।");
+      return;
+    }
+
+    if (password.length < 8) {
+      toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।");
+      return;
+    }
+
+    if (password !== confirmPassword) {
       toast.error("দুটি পাসওয়ার্ড মিলছে না।");
       return;
     }
 
     try {
       const { data, error } = await signUp.email({
-        name: user.name.trim(),
-        email: user.email.trim(),
-        password: user.password,
+        name,
+        email,
+        password,
         callbackURL: "/",
       });
 
       if (error) {
-        toast.error(error.message ?? "Something went wrong");
+        toast.error(
+          error.message === "User already exists"
+            ? "এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট রয়েছে।"
+            : "সাইন আপ করা যায়নি। তথ্যগুলো যাচাই করে আবার চেষ্টা করুন।",
+        );
+        console.error("সাইন আপের ত্রুটি:", error);
         return;
       }
 
       if (data) {
-        toast.success("সাইন আপ সফল হয়েছে");
+        toast.success("সাইন আপ সফল হয়েছে! স্বাগতম।");
         router.push("/");
+        router.refresh();
+      } else {
+        toast.error("সাইন আপ সম্পন্ন হয়নি। আবার চেষ্টা করুন।");
       }
-    } catch {
-      toast.error("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    } catch (error) {
+      console.error("সাইন আপের সমস্যা:", error);
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     }
   };
 
-  const handleGoogleSubmit = async () => {
-    const data = await signIn.social({
-      provider: "google",
-    });
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("Google login error:", error);
+        toast.error("গুগল দিয়ে প্রবেশ করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("Google login exception:", error);
+      toast.error("গুগল দিয়ে প্রবেশ করতে সমস্যা হয়েছে।");
+    }
   };
 
   const handleGitHubSignIn = async () => {
-    const data = await signIn.social({
-      provider: "github",
-    });
+    try {
+      const { error } = await signIn.social({
+        provider: "github",
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("GitHub login error:", error);
+        toast.error("গিটহাব দিয়ে প্রবেশ করা যায়নি। আবার চেষ্টা করুন।");
+      }
+    } catch (error) {
+      console.error("GitHub login exception:", error);
+      toast.error("গিটহাব দিয়ে প্রবেশ করতে সমস্যা হয়েছে।");
+    }
   };
-
-
 
   return (
     <main className='min-h-screen bg-base-100 px-4 py-10'>
       <div className='mx-auto flex min-h-[80vh] max-w-md flex-col items-center justify-center'>
-        {/* Heading */}
         <div className='mb-6 text-center'>
           <h1 className='text-3xl font-bold text-base-content'>
             অ্যাকাউন্ট তৈরি করুন
           </h1>
-
           <p className='mt-2 text-sm text-base-content/70'>
             বিনা খরচে সাইন আপ করে পণ্যের বিস্তারিত দাম দেখুন।
           </p>
         </div>
 
-        {/* Sign Up Form */}
         <div className='w-full rounded-2xl border border-base-300 bg-base-200 p-6 shadow-lg sm:p-8'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <fieldset className='fieldset'>
@@ -158,7 +190,7 @@ const SignUpPage = () => {
           <div className='grid grid-cols-2 gap-3'>
             <button
               type='button'
-              onClick={handleGoogleSubmit}
+              onClick={handleGoogleSignIn}
               className='flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -223,4 +255,3 @@ const SignUpPage = () => {
 };
 
 export default SignUpPage;
-
