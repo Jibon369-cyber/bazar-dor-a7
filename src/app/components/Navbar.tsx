@@ -1,17 +1,17 @@
-
-
 import Image from "next/image";
 import Link from "next/link";
-import { getCategories, getProducts,} from "@/lib/api";
+import { getCategories, getProducts } from "@/lib/api";
 import NavLinks from "./NavLinks";
 import CurrentDate from "./CurrentDate";
 import ProductMarquee from "./ProductMarquee";
+import AuthButtons from "./AuthButtons";
 
 const Navbar = async () => {
-  const categories = await getCategories();
-  const products = await getProducts();
+  const [categories, products] = await Promise.all([
+    getCategories(),
+    getProducts(),
+  ]);
 
-  
   return (
     <header className='sticky top-0 z-50 border-b border-green-100 bg-white/90 backdrop-blur-md'>
       <div className='flex items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8'>
@@ -32,29 +32,19 @@ const Navbar = async () => {
               বাজার দর
             </h1>
 
-            <CurrentDate/>
+            <CurrentDate />
           </div>
         </Link>
 
-        {/* Auth Buttons */}
-        <div className='flex shrink-0 items-center gap-2'>
-          <Link
-            href='/sign-in'
-            className='rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-green-200 hover:bg-green-50 hover:text-green-700 sm:px-4'>
-            সাইন ইন
-          </Link>
-
-          <Link
-            href='/sign-up'
-            className='rounded-lg bg-green-700 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-green-800 sm:px-4'>
-            সাইন আপ
-          </Link>
-        </div>
+        {/* Authentication Buttons */}
+        <AuthButtons />
       </div>
 
-      {/* Navigation */}
+      {/* Category Navigation */}
       <NavLinks categories={categories} />
-      <ProductMarquee products={products}/>
+
+      {/* Price Ticker */}
+      <ProductMarquee products={products} />
     </header>
   );
 };
