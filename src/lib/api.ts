@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://api.api-store.workers.dev/api/bazardor";
+const API_BASE_URL = "https://api.abcz.workers.dev/api/bazardor";
 
 // All Categories
 export async function getCategories() {
