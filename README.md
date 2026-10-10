@@ -6,8 +6,8 @@
 
 ## 🌐 Live Demo
 
-- **Live Website:** [Add your deployed website URL here]
-- **GitHub Repository:** [Add your GitHub repository URL here]
+- **Live Website:** 
+- **GitHub Repository:** (https://github.com/Jibon369-cyber/bazar-dor-a7)
 
 ## ✨ Features
 
@@ -47,15 +47,13 @@ Application-টি grocery product এবং category data দেখানোর
 
 **Base API URL:**
 
-```text
 https://api.api-store.workers.dev/api/bazardor
-```
+
 
 Alternative API:
 
-```text
 https://api.abcz.workers.dev/api/bazardor
-```
+
 
 ### Available Endpoints
 
@@ -82,27 +80,23 @@ Make sure you have the following installed:
 
 **1. Clone the repository**
 
-```bash
 git clone YOUR_GITHUB_REPOSITORY_URL
-```
+
 
 **2. Navigate to the project directory**
 
-```bash
 cd bazar-dor
-```
+
 
 **3. Install dependencies**
 
-```bash
 npm install
-```
+
 
 **4. Configure environment variables**
 
 Create a `.env.local` file in the root directory and add the required variables.
 
-```env
 BETTER_AUTH_SECRET=your_better_auth_secret
 BETTER_AUTH_URL=http://localhost:3000
 NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
@@ -114,7 +108,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
-```
+
 
 Replace the placeholder values with your own credentials. Configure Google and GitHub OAuth callback URLs for your local and deployed environments as needed.
 
@@ -122,23 +116,20 @@ Replace the placeholder values with your own credentials. Configure Google and G
 
 **5. Start the development server**
 
-```bash
 npm run dev
-```
+
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Build for Production
 
-```bash
 npm run build
-```
+
 
 To run the production build locally:
 
-```bash
 npm run start
-```
+
 
 ## 🔐 Authentication
 
@@ -166,7 +157,6 @@ Product grids, navigation, authentication forms, and other UI sections adapt to 
 
 The project uses the Next.js App Router and organizes pages, reusable components, API utilities, and authentication configuration.
 
-```text
 src/
 ├── app/
 │   ├── api/
@@ -186,7 +176,7 @@ src/
 │   ├── auth.ts
 │   └── auth-client.ts
 └── proxy.ts
-```
+
 
 *Note: Update the structure above if your actual folder names differ.*
 
@@ -198,8 +188,7 @@ src/
 
 **Your Name**
 
-- GitHub: [Your GitHub Profile](YOUR_GITHUB_PROFILE_URL)
+- GitHub: https://github.com/Jibon369-cyber
 
----
 
 *Built as a Programming Hero assignment project.*
