@@ -1,36 +1,205 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 বাজার দর (Bazar Dor)
 
-## Getting Started
+**প্রয়োজনীয় নিত্যপণ্যের দাম এক নজরে।**
 
-First, run the development server:
+বাজার দর একটি responsive grocery price tracking web application। এই অ্যাপের মাধ্যমে ব্যবহারকারীরা চাল, ডাল, তেল, সবজি, মাছ, মাংসসহ বিভিন্ন নিত্যপ্রয়োজনীয় পণ্যের বর্তমান দাম, দামের পরিবর্তন এবং বিভিন্ন বাজারের দামের তথ্য দেখতে পারবেন।
+
+## 🌐 Live Demo
+
+- **Live Website:** [Add your deployed website URL here]
+- **GitHub Repository:** [Add your GitHub repository URL here]
+
+## ✨ Features
+
+- **Dynamic Navbar:** ক্যাটাগরি নেভিগেশন, বাংলা তারিখ এবং authentication controls।
+- **Price Ticker:** নিত্যপ্রয়োজনীয় পণ্যের দামের পরিবর্তন দেখার সুবিধা।
+- **Hero Section:** সহজ নেভিগেশনের জন্য introductory banner এবং call-to-action।
+- **Product Listings:** সব পণ্যের তালিকা, দাম এবং price-change indicators।
+- **Price Trends:** যেসব পণ্যের দাম বেড়েছে বা কমেছে, সেগুলোর আলাদা তালিকা।
+- **Product Details:** পণ্যের সর্বনিম্ন, সর্বোচ্চ ও গড় দাম এবং বাজারভিত্তিক price information।
+- **Category Filtering:** ক্যাটাগরি অনুযায়ী পণ্য দেখা।
+- **Price Sorting:** দাম কম থেকে বেশি এবং বেশি থেকে কম ক্রমে পণ্য সাজানো।
+- **Authentication:** Email/password, Google এবং GitHub দিয়ে sign-in/sign-up।
+- **Protected Routes:** Authentication ছাড়া নির্দিষ্ট protected pages access করলে sign-in-এ redirect।
+- **Profile Management:** Profile information দেখা এবং নাম update করা।
+- **Responsive Design:** Mobile, tablet এবং desktop-এ ব্যবহারযোগ্য layout।
+- **Loading States:** Data load হওয়ার সময় loading skeleton।
+- **Error Handling:** Custom 404 page এবং empty-state UI।
+- **Toast Notifications:** গুরুত্বপূর্ণ authentication ও action feedback বাংলায় দেখানো।
+
+## 🛠️ Technologies Used
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- daisyUI
+- Better Auth
+- MongoDB
+- REST API
+- React Hot Toast
+- Git and GitHub
+- Vercel
+
+## 🔌 API Integration
+
+Application-টি grocery product এবং category data দেখানোর জন্য REST API ব্যবহার করে।
+
+**Base API URL:**
+
+```text
+https://api.api-store.workers.dev/api/bazardor
+```
+
+Alternative API:
+
+```text
+https://api.abcz.workers.dev/api/bazardor
+```
+
+### Available Endpoints
+
+| Endpoint | Description |
+|---|---|
+| `/products` | সব পণ্যের তালিকা |
+| `/products?category=chal` | নির্দিষ্ট ক্যাটাগরির পণ্য |
+| `/products/1` | নির্দিষ্ট পণ্যের বিস্তারিত |
+| `/categories` | সব ক্যাটাগরির তালিকা |
+| `/categories/chal` | নির্দিষ্ট ক্যাটাগরির তথ্য |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js
+- npm
+- Git
+- MongoDB database access
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
+```
+
+**2. Navigate to the project directory**
+
+```bash
+cd bazar-dor
+```
+
+**3. Install dependencies**
+
+```bash
+npm install
+```
+
+**4. Configure environment variables**
+
+Create a `.env.local` file in the root directory and add the required variables.
+
+```env
+BETTER_AUTH_SECRET=your_better_auth_secret
+BETTER_AUTH_URL=http://localhost:3000
+NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+
+MONGODB_URL=your_mongodb_connection_string
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+```
+
+Replace the placeholder values with your own credentials. Configure Google and GitHub OAuth callback URLs for your local and deployed environments as needed.
+
+**Important:** Never commit `.env.local` or expose database credentials, authentication secrets, or OAuth client secrets in a public repository.
+
+**5. Start the development server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+To run the production build locally:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔐 Authentication
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Bazar Dor uses Better Auth for user authentication.
 
-## Deploy on Vercel
+Supported authentication methods:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Email and password
+- Google OAuth
+- GitHub OAuth
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Protected pages include the profile page and product detail pages. Unauthenticated users are redirected to the sign-in page.
+
+## 📱 Responsive Design
+
+The application is designed to work across:
+
+- Mobile phones
+- Tablets
+- Desktop screens
+
+Product grids, navigation, authentication forms, and other UI sections adapt to different screen sizes.
+
+## 📁 Project Structure
+
+The project uses the Next.js App Router and organizes pages, reusable components, API utilities, and authentication configuration.
+
+```text
+src/
+├── app/
+│   ├── api/
+│   │   └── auth/
+│   ├── components/
+│   ├── category/
+│   ├── product/
+│   ├── profile/
+│   ├── sign-in/
+│   ├── sign-up/
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── not-found.tsx
+│   └── page.tsx
+├── lib/
+│   ├── api.ts
+│   ├── auth.ts
+│   └── auth-client.ts
+└── proxy.ts
+```
+
+*Note: Update the structure above if your actual folder names differ.*
+
+## ⚠️ Disclaimer
+
+পণ্যের প্রদর্শিত দাম সম্ভাব্য এবং বাজারের অবস্থা অনুযায়ী পরিবর্তিত হতে পারে। কেনাকাটার আগে স্থানীয় বাজারে দাম যাচাই করে নেওয়া উচিত।
+
+## 👨‍💻 Author
+
+**Your Name**
+
+- GitHub: [Your GitHub Profile](YOUR_GITHUB_PROFILE_URL)
+
+---
+
+*Built as a Programming Hero assignment project.*
