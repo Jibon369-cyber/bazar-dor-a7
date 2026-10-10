@@ -99,7 +99,7 @@ Create a `.env.local` file in the root directory and add the required variables.
 
 BETTER_AUTH_SECRET=your_better_auth_secret
 BETTER_AUTH_URL=http://localhost:3000
-NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
+
 
 MONGODB_URL=your_mongodb_connection_string
 
