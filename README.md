@@ -45,7 +45,14 @@
 
 Application-টি grocery product এবং category data দেখানোর জন্য REST API ব্যবহার করে।
 
+
 **Base API URL:**
+
+Main_API_URL:
+
+https://openapi.programming-hero.com/api/bazardor
+
+BASE_URL_1:
 
 https://api.api-store.workers.dev/api/bazardor
 
